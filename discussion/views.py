@@ -16,6 +16,9 @@ class QuestionListCreateView(generics.ListCreateAPIView):
             return [permissions.IsAuthenticated()]
         return [permissions.AllowAny()]
 
+    def perform_create(self, serializer: QuestionSerializer) -> None:
+        user = self.request.user
+        serializer.save(user=user)
 
 class QuestionRetrieveDestroyView(generics.RetrieveDestroyAPIView):
     queryset = Question.objects.all()
